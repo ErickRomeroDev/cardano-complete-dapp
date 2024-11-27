@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils";
-import { SettingsIcon, UsersIcon } from "lucide-react";
+import { SettingsIcon, UsersIcon, CircuitBoardIcon } from "lucide-react";
 import Link from "next/link";
 import {
   GoCheckCircle,
@@ -20,12 +20,12 @@ const routes = [
     icon: GoHome,
     activeIcon: GoHomeFill,
   },
-  {
-    label: "My Tasks",
-    href: "/tasks",
-    icon: GoCheckCircle,
-    activeIcon: GoCheckCircleFill,
-  },
+  // {
+  //   label: "My Tasks",
+  //   href: "/tasks",
+  //   icon: GoCheckCircle,
+  //   activeIcon: GoCheckCircleFill,
+  // },
   {
     label: "Settings",
     href: "/settings",
@@ -38,6 +38,12 @@ const routes = [
     icon: UsersIcon,
     activeIcon: UsersIcon,
   },
+  {
+    label: "Quetions",
+    href: "/boards",
+    icon: CircuitBoardIcon,
+    activeIcon: CircuitBoardIcon,
+  },
 ];
 
 export const Navigation = () => {
@@ -46,7 +52,7 @@ export const Navigation = () => {
   return (
     <div className="flex flex-col">
       {routes.map((item) => {
-        const fullHref = `/workspaces/${workspaceId}${item.href}`
+        const fullHref = (item.href !== "/boards") ? `/workspaces/${workspaceId}${item.href}` : item.href
         const isActive = pathname === fullHref;
         const Icon = isActive ? item.activeIcon : item.icon;
         return (

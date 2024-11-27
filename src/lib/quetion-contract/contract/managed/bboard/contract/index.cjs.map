@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.cjs",
+  "sourceRoot": "../../../",
+  "sources": ["bboard.compact", "/home/erick/my-binaries/compactc/lib//std.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAUA;;;;;;;;;;MASA,AAAA,IAMC;;;;cANmB,WAA6B;;;;;;;;;;yCAA7B,WAA6B;;;;;;;gEAA7B,WAA6B;;;OAMhD;MAED,AAAA,SAUC;;;;;;;;;;;;;;;;;;;;OAAA;MAED,AAAA,UAEC;;;;cAFyB,EAAa;cAAE,QAAmB;;;;;;;;;;;;;;;;;;;;;;yCAAlC,EAAa,+BAAE,QAAmB;;;;;;;;;2CAAlC,EAAa;2CAAE,QAAmB;;;OAE3D;;;;;;GA1BA;EALD;;;;UAAY,SAA2B;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IANvC;;;;;;;;;;sBAAiC;IACjC;;;;;;;;;;sBAA4C;IAC5C;;;;;;;;;;sBAAqD;IACrD;;;;;;;;;;sBAAgC;IAChC;;;;;;;;;;sBAAsC;IAGlC;;;;;;;;;;sBAAK;IACL;;;;;;;yGAAQ,SAAS;;;sBAAZ;UACL,GAAO;IAAP;;;;;;;yGAAA,GAAO;;;sBAAA;UACP,KAAQ;IAAR;;;;;;;;;;;2EAAA,KAAQ;;;;;sBAAA;;;;;;;GACX;ECPC,AAAA,QAEC,4BAFsB,KAAQ;mCACH,KAAK;GAChC;EACD,AAAA,QAEC,qEAAA;EAgBD,AAAA,mBAAuD,4BAArB,KAAQ;kEAAR,KAAQ;;GAAa;EDZzD,AAAA,oBAAsC;;sDAAtC,gBAAsC;;;;;;;;;;;;;GAAA;EAEtC,AAAA,QAMC,4BANmB,WAA6B;oDACtC;;;;;;;;;;;;;sEAAK;;;;UAEZ,GAAM;;;;;0GAAkC;;;;;;;;;;;;;4HAAQ;IAAhD;;;;;;;yGAAA,GAAM;;;sBAAA;UACN,KAAO,4CAA0B,WAAW;IAA5C;;;;;;;yGAAA,KAAO;;;sBAAA;IACP;;;;;;;;;;sBAAK;GACR;EAED,AAAA,aAUC;oDATU;;;;;;;;;;;;;sEAAK;;;;mEAEL;;;;;;;;;;;;;qFAAM;;;;;;qIAAmC;;;;;;;;;;;;;uJAAQ;;UAExD,UAAiC,2BAAd;;;;;;;;;;;;;iEAAO;IAC1B;;;;;;;;;;sBAAK;UACL,GAAQ;IAAR;;;;;;;;;;;2EAAA,GAAQ;;;;;sBAAA;UACR,KAAO;IAAP;;;;;;;yGAAA,KAAO;;;sBAAA;WACA,UAAU;GACpB;EAED,AAAA,cAEC,4BAFyB,EAAa,EAAE,QAAmB;;;;;;+DACoD,QAAQ;qCAAI,EAAE;GAC7H;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IArCD;qCAAA;;;;;;;;;;;;;uDAAiC;KAAA;IACjC;qCAAA;;;;;;;;;;;;;uDAA4C;KAAA;IAC5C;qCAAA;;;;;;;;;;;;;uDAAqD;KAAA;IACrD;qCAAA;;;;;;;;;;;;;uDAAgC;KAAA;IAChC;qCAAA;;;;;;;;;;;;;uDAAsC;KAAA;;;;;;;;;;;;;;;;;;"
+}

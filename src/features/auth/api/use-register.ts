@@ -23,10 +23,11 @@ export const useRegister = () => {
 
       return await response.json();
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Registered");
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ["current"] });
+      await client.api.auth.createPrivate.$post({});
     },
     onError: () => {
       toast.error("Failed to register");

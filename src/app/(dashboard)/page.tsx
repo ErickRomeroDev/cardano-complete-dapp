@@ -15,4 +15,4 @@ export default async function Home() {
     redirect(`/workspaces/${workspaces.documents[0].$id}`);
   }
 }
-0;
+

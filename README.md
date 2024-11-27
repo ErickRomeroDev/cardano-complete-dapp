@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Your wallet seed is: 4df682775a4b96cf4dd76f6c36eccc80a9ff501f1557257f6d50b122a274f4ca
 
-## Getting Started
+Your wallet address is: c945900a55c5e3ff8259a316af6fd84c5a95037912bc67124dc5aa66888f668f|03000781b20eb32efa16328704c7c8ecf8d10557a82fad93db6d358a17b96c415b02276ec4d863fdf78f65f14535a093eba456ae67b551d2339f
 
-First, run the development server:
+Deployed contract at address: 020037639865773de8069113e043b49f0179ca9865b9acf64cc93686520569683f28
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Bulleting board:
+Deployed contract at address: 02006093d52e07910b76868f7e8ac1f5bec6cb087494e1365f0be95ab1e61f9f9b1e
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Questions:
+Deployed contract at address: 02002d2d4963d52532b9c7bcf92d0fc2bd94cc499b324a316222403033765d64739e
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To run the proof server
+docker run -p 6300:6300 midnightnetwork/proof-server -- 'midnight-proof-server --network testnet'
 
-## Learn More
+install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 
-To learn more about Next.js, take a look at the following resources:
+export COMPACT_HOME="/home/erick/my-binaries/compactc"
+export PATH="$COMPACT_HOME:$PATH"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+compactc src/bboard.compact src/managed/bboard   //at the file of the contract
 
-## Deploy on Vercel
+npx turbo build //at the level of the specific project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+yarn testnet-remote ///at the file of the specifc project cli level
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+donmt forget to check version of node...nvm install

@@ -50,6 +50,15 @@ const app = new Hono()
     deleteCookie(c, AUTH_COOKIE);
     await account.deleteSession("current");
     return c.json({ success: true });
-  });
+  })
+  .post("/createPrivate", sessionMiddleware,
+    async (c) => {
+      const account = c.get("account");
+      await account.updatePrefs({
+        privateKey: ID.unique(),
+      })
+    }
+  )
+  ;
 
 export default app;

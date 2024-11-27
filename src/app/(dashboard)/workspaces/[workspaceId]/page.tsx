@@ -1,4 +1,6 @@
 import { getCurrent } from "@/features/auth/queries";
+import { AllPolls } from "@/features/voting/components/all-polls";
+import { CreatePoll } from "@/features/voting/components/create-poll";
 import { redirect } from "next/navigation";
 
 const WorkspaceIdPage = async () => {
@@ -6,7 +8,12 @@ const WorkspaceIdPage = async () => {
   if (!user) {
     redirect("/sign-in");
   }
-  return <div>Workspace Id</div>;
+  return (
+    <div className="text-white px-14 py-28  overflow-y-auto h-full flex flex-col justify-start space-y-12">
+      <CreatePoll />
+      <AllPolls />
+    </div>
+  );
 };
 
 export default WorkspaceIdPage;

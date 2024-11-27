@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { MidnightProvider } from "@/components/midnight-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body className={cn(inter, "antialiased min-h-screen")}>
         <QueryProvider>
           <Toaster />
-          {children}
+          <MidnightProvider>{children}</MidnightProvider>
         </QueryProvider>
       </body>
     </html>
