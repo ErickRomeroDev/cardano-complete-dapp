@@ -48,30 +48,32 @@ interface BoardProps {
 
 export const Board = ({ address, index }: BoardProps) => {
   const { isLoading, setIsLoading, setNotLoading, indexLoading } =
-    useMessageLoading();
-  const quetionsApiProvider = new BrowserDeployedBoardManager();
+    useMessageLoading();  
   const [boardDeployment, setBoardDeployment] = useState<BoardDeployment>();
   const [deployedBoardAPI, setDeployedBoardAPI] = useState<DeployedBBoardAPI>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [boardState, setBoardState] = useState<BBoardDerivedState>();
-  const [isWorking, setIsWorking] = useState(false);
+  const [isWorking, setIsWorking] = useState(false); 
+  const quetionsApiProvider = new BrowserDeployedBoardManager();
 
   useEffect(() => {
-    setIsWorking(true);
+    setIsWorking(true);    
     const subscription =
-      quetionsApiProvider.boardDeployments$.subscribe(setBoardDeployment);
-    // onJoinBoard(address);
+      quetionsApiProvider.boardDeployments$.subscribe(setBoardDeployment);  
+      console.log({subscription})    
+    onJoinBoard(address);    
 
     return () => {
       subscription.unsubscribe();
     };
   }, [address]);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (!boardDeployment) {
       return;
     }
     if (boardDeployment.status === "in-progress") {
+      console.log("in progress..")
       return;
     }
 
@@ -84,7 +86,7 @@ export const Board = ({ address, index }: BoardProps) => {
       return;
     }
 
-    setDeployedBoardAPI(boardDeployment.api);
+    setDeployedBoardAPI(boardDeployment.api);    
     const subscription = boardDeployment.api.state$.subscribe(setBoardState);
     setIsWorking(false);
     return () => {
@@ -111,9 +113,10 @@ export const Board = ({ address, index }: BoardProps) => {
     index: number
   ) => {
     try {
+      console.log({values, index})
       onPostMessage(values.message, index);
     } catch {
-      // setShowError(true);
+      toast.error("something went wrong");
     }
   };
 
@@ -124,6 +127,7 @@ export const Board = ({ address, index }: BoardProps) => {
     async (message: string, index: number) => {
       try {
         if (deployedBoardAPI) {
+          console.log("dentro de deployed API")
           setIsLoading(index);
           await deployedBoardAPI.post(message);
           toast.success("Message sent");
@@ -132,7 +136,7 @@ export const Board = ({ address, index }: BoardProps) => {
         }
       } catch (error: unknown) {
         setErrorMessage(error instanceof Error ? error.message : String(error));
-        setNotLoading();
+        setNotLoading();        
       }
     },
     [deployedBoardAPI, setErrorMessage]

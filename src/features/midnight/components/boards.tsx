@@ -28,22 +28,26 @@ import { NewBoard } from "./new-board";
 import { QuestionModal } from "./question-modal";
 import { motion } from "framer-motion";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useGetQuestions } from "../api/use-get-questions";
+import { useCreateQuestion } from "../api/use-create-questions";
 
 export const Boards = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { isDisabled } = useShowToast();
   const { isLoading } = useMessageLoading();
-  const data = [{address: "020065580b14427e09c2fe75ff12175b4b3bec2f42d38809020ed8084f7986654827"}];
+  const data = [{address: "02008b0b8d55bd0ba18391eb4b1056b4259b90a219430baa201637443402b000a78e"}];
+  const { data: questions } = useGetQuestions();
+  const { mutate, isPending } = useCreateQuestion();
   
-  const onCreateBoard = async () => {
-    const quetionsApiProvider = new BrowserDeployedBoardManager();    
-    const deployment$ = await quetionsApiProvider.resolve(); 
+  const onCreateBoard = async (title: string) => {
+    const quetionsApiProvider = new BrowserDeployedBoardManager();         
+    const deployment$ = await quetionsApiProvider.resolve(undefined, title); 
     const deployment = await firstValueFrom(deployment$);  
     toast.success("Board was successfully created"); 
     setIsDialogOpen(false);
     if (deployment.status === "deployed") {
       console.log("address", deployment.api.deployedContractAddress);
-      //TODO: mutation
+      mutate({ json: {address: deployment.api.deployedContractAddress as string} });
     }
   };
  
@@ -62,8 +66,8 @@ export const Boards = () => {
           </DialogContent>
         </Dialog>
 
-        {data ? (
-          data.map((item, index) => (
+        {questions ? (
+          questions.documents.map((item, index) => (
             <Board key={index} address={item.address} index={index} />
           ))
         ) : (

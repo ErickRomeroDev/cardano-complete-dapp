@@ -105,7 +105,8 @@ export interface DeployedBoardAPIProvider {
    * contract; otherwise it will attempt to deploy a new one.
    */
   readonly resolve: (
-    contractAddress?: ContractAddress
+    contractAddress?: ContractAddress,
+    title?: string
   ) => Promise<Observable<BoardDeployment>>;
 }
 
@@ -132,13 +133,20 @@ export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
   }
 
   /** @inheritdoc */
-  async resolve(contractAddress?: ContractAddress) {  
-     
-    if (contractAddress) {      
-      return await this.joinDeployment(this.boardDeployments$, contractAddress) ;
-    } else {       
-      return await this.deployDeployment(this.boardDeployments$);
-    }   
+  async resolve(contractAddress?: ContractAddress, title?: string) {
+    if (contractAddress) {
+      return await this.joinDeployment(this.boardDeployments$, contractAddress);
+    } else if (title) {
+      return await this.deployDeployment(this.boardDeployments$, title);
+    } else {
+      // Return an observable with a failed deployment
+      const failedDeployment: FailedBoardDeployment = {
+        status: "failed",
+        error: new Error("Neither contractAddress nor title was provided."),
+      };
+      this.boardDeployments$.next(failedDeployment);
+      return of(failedDeployment);
+    }
   }
 
   private getProviders(): Promise<BBoardProviders> {
@@ -155,11 +163,12 @@ export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
   }
 
   private async deployDeployment(
-    deployment: BehaviorSubject<BoardDeployment>
+    deployment: BehaviorSubject<BoardDeployment>,
+    title: string
   ): Promise<Observable<BoardDeployment>> {
-    try {      
-      const providers = await this.getProviders();      
-      const api = await BBoardAPI.deploy(providers);
+    try {
+      const providers = await this.getProviders();
+      const api = await BBoardAPI.deploy(providers, title);
 
       deployment.next({
         status: "deployed",
@@ -203,10 +212,10 @@ const initializeProviders = async (): Promise<BBoardProviders> => {
   const { levelPrivateStateProvider } = await import(
     "@midnight-ntwrk/midnight-js-level-private-state-provider"
   );
-  console.log("Initialize")
+  console.log("Initialize");
 
   const { wallet, uris } = await connectToWallet();
-  const walletState = await wallet.state();  
+  const walletState = await wallet.state();
 
   return {
     privateStateProvider: levelPrivateStateProvider({
