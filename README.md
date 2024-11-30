@@ -28,3 +28,4 @@ npx turbo build //at the level of the specific project
 yarn testnet-remote ///at the file of the specifc project cli level
 
 donmt forget to check version of node...nvm install
+teste
