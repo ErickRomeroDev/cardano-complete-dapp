@@ -6,13 +6,17 @@ import { WorkspaceSwitcher } from "./workspace-switcher";
 
 export const Sidebar = () => {
   return (
-    <aside className="h-full bg-neutral-100 p-4 w-full">
+    <aside className="h-full bg-[#151518] text-white border-r-[1px] border-[#E5E7EB] p-4 w-full">
+      <div className="absolute w-full h-[1px] bg-[#E5E7EB] left-0 top-[59px]" />
       <Link href="/">
-        <Image src="/midnight-logo-black.svg" alt="logo" width={164} height={48} />
+        <div className="flex gap-x-2 items-center">
+          <Image src="/logo-mesh.svg" alt="logo" width={39} height={39} />
+          <p className="font-medium text-[16px]">Multi-Sig Platform</p>
+        </div>
       </Link>
-      <DottedSeparator className="my-4" />
+      <div className="h-10" />
       <WorkspaceSwitcher />
-      <DottedSeparator className="my-4" />
+      <div className="h-6" />
       <Navigation />
     </aside>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { Geist } from "next/font/google"
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,11 +11,14 @@ interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
+const geist = Geist({ subsets: ["latin"] });
+
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   const pathname = usePathname();
   const isSignIn = pathname === "/sign-in";
+
   return (
-    <main className="bg-neutral-100 min-h-screen">
+    <main className={`${geist.className} antialiased bg-neutral-100 min-h-screen`}>
       <div className="mx-auto max-w-screen-2xl p-4">
         <nav className="flex justify-between items-center">
           <Image src="/next.svg" alt="logo" width={152} height={56} />

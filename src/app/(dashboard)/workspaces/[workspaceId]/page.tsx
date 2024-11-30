@@ -9,7 +9,7 @@ const WorkspaceIdPage = async () => {
     redirect("/sign-in");
   }
   return (
-    <div className="text-white px-14 py-28  overflow-y-auto h-full flex flex-col justify-start space-y-12">
+    <div className="text-white px-14 pt-32 pb-14 overflow-y-auto h-full flex flex-col justify-start space-y-12">
       <CreatePoll />
       <AllPolls />
     </div>

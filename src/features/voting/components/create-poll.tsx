@@ -37,7 +37,7 @@ export const CreatePoll = () => {
       deadline: "",
     },
   });
-  type FormData = z.infer<typeof formSchema>;
+  // type FormData = z.infer<typeof formSchema>;
 
   
   const { fields, append, remove } = useFieldArray({
@@ -114,7 +114,7 @@ export const CreatePoll = () => {
                 </ul>
                 <Button
                   type="button"
-                  className="bg-white text-black hover:bg-zinc-200 px-6"
+                  className="bg-white text-black font-normal hover:bg-zinc-300 transition px-6"
                   onClick={() => append("")} 
                 >
                   Add option
@@ -122,7 +122,7 @@ export const CreatePoll = () => {
                 {/* <input type="submit" /> */}
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="deadline" className="text-[16px] font-normal">
                   Deadline
                 </Label>
@@ -148,12 +148,12 @@ export const CreatePoll = () => {
                   />
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  className="bg-white text-black hover:bg-zinc-200 px-6 h-10"
+                  className="bg-white text-black font-normal hover:bg-zinc-300 transition px-6 h-10"
                 >
                   Create poll
                 </Button>

@@ -21,7 +21,7 @@ const icons: IconsType[] = [
 
 export const Navbar = () => {
   return (
-    <nav className="pt-4 px-6 flex items-center justify-between">
+    <nav className="inset-0 fixed z-20 bg-[#151518] px-6 flex items-center justify-between border-b-[1px] h-[60px] border-[#E5E7EB]">
       <div className="flex-col hidden lg:flex">
         {/* <h1 className="text-2xl font-semibold ">Home</h1>
         <p className="text-muted-foreground">
