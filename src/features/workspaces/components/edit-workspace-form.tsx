@@ -231,7 +231,7 @@ export const EditWorkspaceForm = ({
                             <Button
                               type="button"
                               disabled={isPending}
-                              variant="teritary"
+                              variant="default"
                               size="xs"
                               className="w-fit mt-2"
                               onClick={() => inputRef.current?.click()}
@@ -260,7 +260,7 @@ export const EditWorkspaceForm = ({
                 <Button
                   type="submit"
                   size="lg"
-                  variant="primary"
+                  variant="default"
                   disabled={isPending}
                 >
                   Save Changes

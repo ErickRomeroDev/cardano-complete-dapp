@@ -149,7 +149,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                           <Button
                             type="button"
                             disabled={isPending}
-                            variant="teritary"
+                            variant="default"
                             size="xs"
                             className="w-fit mt-2"
                             onClick={() => inputRef.current?.click()}
@@ -178,7 +178,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
               <Button
                 type="submit"
                 size="lg"
-                variant="primary"
+                variant="default"
                 disabled={isPending}
               >
                 Create Workspace
