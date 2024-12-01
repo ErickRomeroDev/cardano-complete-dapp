@@ -1,6 +1,6 @@
 "use client";
 
-import { mockPolls, Poll } from "@/lib/poll-data";
+import { mockPolls } from "@/lib/poll-data";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -24,12 +24,21 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 import { BoardDeployment, BrowserDeployedBoardManager } from "@/lib/voting";
-import { BBoardDerivedState, DeployedBBoardAPI } from "@/lib/voting/api";
+import {
+  BBoardDerivedState,
+  DeployedBBoardAPI,
+  PrivateStates,
+} from "@/lib/voting/api";
+import { firstValueFrom } from "rxjs";
+import { levelPrivateStateProvider } from "@midnight-ntwrk/midnight-js-level-private-state-provider";
+import { pureCircuits } from "@/lib/voting/contract";
+import { toast } from "sonner";
 
 const midnightPolls = [
   {
-    id: "item-1",  
-    address: "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c",  
+    id: "item-1",
+    address:
+      "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c",
     question: "What is your favorite programming language?",
     action: "Vote Now",
     options: [
@@ -38,25 +47,117 @@ const midnightPolls = [
       { text: "Java", votes: 18 },
     ],
   },
-]
+];
 
 export const AllPolls = () => {
   const [boardDeployment, setBoardDeployment] = useState<BoardDeployment>();
   const [deployedBoardAPI, setDeployedBoardAPI] = useState<DeployedBBoardAPI>();
   const [boardState, setBoardState] = useState<BBoardDerivedState>();
-  const [isWorking, setIsWorking] = useState(false); 
+  const [isWorking, setIsWorking] = useState(false);
   const quetionsApiProvider = new BrowserDeployedBoardManager();
+
+  const register = async () => {
+    const quetionsApiProvider = new BrowserDeployedBoardManager();
+    const deployment$ = await quetionsApiProvider.resolve(
+      "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c"
+    );
+    const deployment = await firstValueFrom(deployment$);
+    if (deployment.status === "deployed") {
+      const providers = {
+        privateStateProvider: levelPrivateStateProvider<PrivateStates>({
+          privateStateStoreName: "bboard-private-state2",
+        }),
+      };
+      const sk = await providers.privateStateProvider.get("bboardPrivateState");
+      const pk = pureCircuits.public_key(sk!.secretKey);
+      await deployment.api.add_authority(pk);
+      toast.success("new voter registered");
+    }
+  };
+
+  const increment1 = async () => {
+    const quetionsApiProvider = new BrowserDeployedBoardManager();
+    const deployment$ = await quetionsApiProvider.resolve(
+      "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c"
+    );
+    const deployment = await firstValueFrom(deployment$);
+    if (deployment.status === "deployed") {
+      const providers = {
+        privateStateProvider: levelPrivateStateProvider<PrivateStates>({
+          privateStateStoreName: "bboard-private-state2",
+        }),
+      };
+      const sk = await providers.privateStateProvider.get("bboardPrivateState");
+      const pk = pureCircuits.public_key(sk!.secretKey);
+      await deployment.api.increment1();
+      toast.success("voting on option 1 successful");
+    }
+  };
+
+  const increment2 = async () => {
+    const quetionsApiProvider = new BrowserDeployedBoardManager();
+    const deployment$ = await quetionsApiProvider.resolve(
+      "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c"
+    );
+    const deployment = await firstValueFrom(deployment$);
+    if (deployment.status === "deployed") {
+      const providers = {
+        privateStateProvider: levelPrivateStateProvider<PrivateStates>({
+          privateStateStoreName: "bboard-private-state2",
+        }),
+      };
+      const sk = await providers.privateStateProvider.get("bboardPrivateState");
+      const pk = pureCircuits.public_key(sk!.secretKey);
+      await deployment.api.increment2();
+      toast.success("voting on option 2 successful");
+    }
+  };
+
+  const increment3 = async () => {
+    const quetionsApiProvider = new BrowserDeployedBoardManager();
+    const deployment$ = await quetionsApiProvider.resolve(
+      "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c"
+    );
+    const deployment = await firstValueFrom(deployment$);
+    if (deployment.status === "deployed") {
+      const providers = {
+        privateStateProvider: levelPrivateStateProvider<PrivateStates>({
+          privateStateStoreName: "bboard-private-state2",
+        }),
+      };
+      const sk = await providers.privateStateProvider.get("bboardPrivateState");
+      const pk = pureCircuits.public_key(sk!.secretKey);
+      await deployment.api.increment3();
+      toast.success("voting on option 3 successful");
+    }
+  };
 
   return (
     <div className="border border-[#27272A] rounded-[15px]">
+      <div className="flex">
+        <Button className="border-none hover:underline" onClick={register}>
+          Register
+        </Button>
+        <Button className="border-none hover:underline" onClick={increment1}>
+          Option 1
+        </Button>
+        <Button className="border-none hover:underline" onClick={increment2}>
+          Option 2
+        </Button>
+        <Button className="border-none hover:underline" onClick={increment3}>
+          Option 3
+        </Button>
+      </div>
+
       <Accordion type="single" collapsible className="w-full">
         <div className="px-6 pt-6 pb-12">
-          <h1 className="text-[22px] py-4">All Polls</h1>
+          <h1 className="text-[22px] text-white py-4">All Polls</h1>
           <div className="grid grid-cols-[1.2fr,0.5fr,0.4fr,0.4fr] items-center text-[14px] text-[#A1A1A9]">
             <p>Question</p>
             <p>Action</p>
             <p></p>
           </div>
+
           {mockPolls.map((item) => {
             // Extract valid options for the Zod schema dynamically
             const validOptions = item.options.map((option) => option.text);
