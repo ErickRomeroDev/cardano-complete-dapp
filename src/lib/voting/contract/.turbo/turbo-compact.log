@@ -1,0 +1,13 @@
+'COMPACT_HOME' env variable is set; using Compact from /home/erick/my-binaries/compactc
+Compiling circuit "./src/managed/bboard/zkir/add_authority.zkir"...
+  k=13, rows=4561
+  done.
+Compiling circuit "./src/managed/bboard/zkir/increment1.zkir"...
+  k=15, rows=22714
+  done.
+Compiling circuit "./src/managed/bboard/zkir/increment2.zkir"...
+  k=15, rows=22715
+  done.
+Compiling circuit "./src/managed/bboard/zkir/increment3.zkir"...
+  k=15, rows=22715
+  done.
