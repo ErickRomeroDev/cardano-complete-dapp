@@ -52,7 +52,7 @@ export const Boards = () => {
   };
  
   return (
-    <div className="relative w-full h-screen overflow-y-auto flex pt-[210px] justify-center items-start ">
+    <div className="relative w-full h-screen overflow-y-auto flex pt-[210px] justify-center items-start bg-slate-200">
       <div className="grid grid-cols-4 gap-7 ">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>

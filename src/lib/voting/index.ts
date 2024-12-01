@@ -41,91 +41,37 @@ import {
   getZswapNetworkId,
 } from "@midnight-ntwrk/midnight-js-network-id";
 
-/**
- * An in-progress bulletin board deployment.
- */
 export interface InProgressBoardDeployment {
   readonly status: "in-progress";
 }
 
-/**
- * A deployed bulletin board deployment.
- */
 export interface DeployedBoardDeployment {
-  readonly status: "deployed";
-
-  /**
-   * The {@link DeployedBBoardAPI} instance when connected to an on network bulletin board contract.
-   */
+  readonly status: "deployed"; 
   readonly api: DeployedBBoardAPI;
 }
 
-/**
- * A failed bulletin board deployment.
- */
 export interface FailedBoardDeployment {
   readonly status: "failed";
-
-  /**
-   * The error that caused the deployment to fail.
-   */
   readonly error: Error;
 }
 
-/**
- * A bulletin board deployment.
- */
 export type BoardDeployment =
   | InProgressBoardDeployment
   | DeployedBoardDeployment
   | FailedBoardDeployment;
 
-/**
- * Provides access to bulletin board deployments.
- */
-export interface DeployedBoardAPIProvider {
-  /**
-   * Gets the observable set of board deployments.
-   *
-   * @remarks
-   * This property represents an observable array of {@link BoardDeployment}, each also an
-   * observable. Changes to the array will be emitted as boards are resolved (deployed or joined),
-   * while changes to each underlying board can be observed via each item in the array.
-   */
+export interface DeployedBoardAPIProvider {  
   readonly boardDeployments$: Observable<BoardDeployment>;
-
-  /**
-   * Joins or deploys a bulletin board contract.
-   *
-   * @param contractAddress An optional contract address to use when resolving.
-   * @returns An observable board deployment.
-   *
-   * @remarks
-   * For a given `contractAddress`, the method will attempt to find and join the identified bulletin board
-   * contract; otherwise it will attempt to deploy a new one.
-   */
+ 
   readonly resolve: (
-    contractAddress?: ContractAddress,
-    title?: string
+    contractAddress?: ContractAddress,    
   ) => Promise<Observable<BoardDeployment>>;
 }
 
-/**
- * A {@link DeployedBoardAPIProvider} that manages bulletin board deployments in a browser setting.
- *
- * @remarks
- * {@link BrowserDeployedBoardManager} configures and manages a connection to the Midnight Lace
- * wallet, along with a collection of additional providers that work in a web-browser setting.
- */
 export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
   boardDeployments$: BehaviorSubject<BoardDeployment>;
   #initializedProviders: Promise<BBoardProviders> | undefined;
 
-  /**
-   * Initializes a new {@link BrowserDeployedBoardManager} instance.
-   *
-   * @param logger The `pino` logger to for logging.
-   */
   constructor() {
     this.boardDeployments$ = new BehaviorSubject<BoardDeployment>({
       status: "in-progress",
@@ -133,29 +79,15 @@ export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
   }
 
   /** @inheritdoc */
-  async resolve(contractAddress?: ContractAddress, title?: string) {
+  async resolve(contractAddress?: ContractAddress) {
     if (contractAddress) {
       return await this.joinDeployment(this.boardDeployments$, contractAddress);
-    } else if (title) {
-      return await this.deployDeployment(this.boardDeployments$, title);
     } else {
-      // Return an observable with a failed deployment
-      const failedDeployment: FailedBoardDeployment = {
-        status: "failed",
-        error: new Error("Neither contractAddress nor title was provided."),
-      };
-      this.boardDeployments$.next(failedDeployment);
-      return of(failedDeployment);
-    }
+      return await this.deployDeployment(this.boardDeployments$);
+    } 
   }
 
   private getProviders(): Promise<BBoardProviders> {
-    // We use a cached `Promise` to hold the providers. This will:
-    //
-    // 1. Cache and re-use the providers (including the configured connector API), and
-    // 2. Act as a synchronization point if multiple contract deploys or joins run concurrently.
-    //    Concurrent calls to `getProviders()` will receive, and ultimately await, the same
-    //    `Promise`.
     return (
       this.#initializedProviders ??
       (this.#initializedProviders = initializeProviders())
@@ -163,12 +95,11 @@ export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
   }
 
   private async deployDeployment(
-    deployment: BehaviorSubject<BoardDeployment>,
-    title: string
+    deployment: BehaviorSubject<BoardDeployment>    
   ): Promise<Observable<BoardDeployment>> {
     try {
       const providers = await this.getProviders();
-      const api = await BBoardAPI.deploy(providers, title);
+      const api = await BBoardAPI.deploy(providers);
 
       deployment.next({
         status: "deployed",
@@ -211,15 +142,14 @@ export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
 const initializeProviders = async (): Promise<BBoardProviders> => {
   const { levelPrivateStateProvider } = await import(
     "@midnight-ntwrk/midnight-js-level-private-state-provider"
-  );
-  console.log("Initialize");
+  );  
 
   const { wallet, uris } = await connectToWallet();
   const walletState = await wallet.state();
 
   return {
     privateStateProvider: levelPrivateStateProvider({
-      privateStateStoreName: "bboard-private-state",
+      privateStateStoreName: "bboard-private-state2",
     }),
     zkConfigProvider: new FetchZkConfigProvider(
       window.location.origin,

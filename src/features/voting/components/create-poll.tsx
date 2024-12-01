@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,22 +20,47 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Image from "next/image";
+import { BrowserDeployedBoardManager } from "@/lib/voting";
+import {
+  BehaviorSubject,
+  type Observable,
+  concatMap,
+  filter,
+  firstValueFrom,
+  interval,
+  map,
+  of,
+  take,
+  tap,
+  throwError,
+  timeout,
+  catchError,
+} from "rxjs";
 
 export const CreatePoll = () => {
+  const onCreateBoard = async () => {
+    const quetionsApiProvider = new BrowserDeployedBoardManager();
+    const deployment$ = await quetionsApiProvider.resolve(); 
+    const deployment = await firstValueFrom(deployment$);
+    toast.success("Voting Poll was successfully created");  
+    if (deployment.status === "deployed") {
+      console.log("address", deployment.api.deployedContractAddress);
+      // mutate({ json: {address: deployment.api.deployedContractAddress as string} });
+    }    
+  }
+
   const formSchema = z.object({
     question: z.string().min(1, "Question is required"),
     options: z
       .array(z.string().min(1, "Option is required"))
-      .min(2, "At least two options are required"),
-    deadline: z.string().min(1, "Deadline is required"),
+      .min(2, "At least two options are required"),    
   });
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       question: "",
-      options: ["", ""],
-      deadline: "",
+      options: ["", ""],      
     },
   });
   // type FormData = z.infer<typeof formSchema>;
@@ -46,8 +72,10 @@ export const CreatePoll = () => {
     name: "options",
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    console.log("submit")
     console.log(data);
+    await onCreateBoard();
   };
 
   return (

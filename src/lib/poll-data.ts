@@ -3,7 +3,7 @@ interface PollOption {
   votes: number; // Number of votes for this option
 }
 
-interface Poll {
+export interface Poll {
   id: string;
   deadline: string; // Deadline for the poll
   question: string; // Poll question

@@ -1,6 +1,6 @@
 "use client";
 
-import { mockPolls } from "@/lib/poll-data";
+import { mockPolls, Poll } from "@/lib/poll-data";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -22,8 +22,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useState } from "react";
+import { BoardDeployment, BrowserDeployedBoardManager } from "@/lib/voting";
+import { BBoardDerivedState, DeployedBBoardAPI } from "@/lib/voting/api";
+
+const midnightPolls = [
+  {
+    id: "item-1",  
+    address: "02006e9bc33a7e338a2a59dc6c6ba34ca0ed82dbac771f049c5c69032fbb010ec29c",  
+    question: "What is your favorite programming language?",
+    action: "Vote Now",
+    options: [
+      { text: "JavaScript", votes: 42 },
+      { text: "Python", votes: 36 },
+      { text: "Java", votes: 18 },
+    ],
+  },
+]
 
 export const AllPolls = () => {
+  const [boardDeployment, setBoardDeployment] = useState<BoardDeployment>();
+  const [deployedBoardAPI, setDeployedBoardAPI] = useState<DeployedBBoardAPI>();
+  const [boardState, setBoardState] = useState<BBoardDerivedState>();
+  const [isWorking, setIsWorking] = useState(false); 
+  const quetionsApiProvider = new BrowserDeployedBoardManager();
 
   return (
     <div className="border border-[#27272A] rounded-[15px]">
